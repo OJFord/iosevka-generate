@@ -10,6 +10,7 @@ source=("$url/archive/v$pkgver.tar.gz")
 md5sums=('af408b3931983ae2fcf513ceec80bc91')
 arch=('any')
 depends=(
+    'fontforge'
     'npm'
     'otfcc'
     'python-gitpython'
