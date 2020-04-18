@@ -1,0 +1,8 @@
+[Unit]
+Description=Run iosevka-generate when config changes
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

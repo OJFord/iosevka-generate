@@ -1,0 +1,10 @@
+#!/bin/sh
+
+while true; do
+    inotifywait -e modify -e create "$XDG_CONFIG_HOME/iosevka/"
+
+    # Generate in background in case another is modified/created
+    # while it runs; if so kill any current generation and re-run.
+    killall iosevka-generate
+    iosevka-generate &
+done
