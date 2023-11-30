@@ -46,11 +46,8 @@ ln -s $CLONED_DIR/iosevka-generate /usr/local/bin/iosevka-generate
 
 On Arch, use the `PKGBUILD` script in this repo or from the [AUR][aur/iosevka-generate].
 
-On macOS, use the contained brew formula:
+On macOS, use the brew formula:
 ```sh
-brew install https://raw.githubusercontent.com/OJFord/iosevka-generate/blob/master/iosevka-generate.rb
-
-# Or, from my `brew tap OJFord/formulae`:
 brew install OJFord/formulae/iosevka-generate
 ```
 
@@ -67,3 +64,4 @@ Nerd Font is (optionally) used for patching additional glyphs, and is copyright 
 [Invis]: https://github.com/be5invis
 [Iosevka]: https://github.com/be5invis/iosevka
 [NerdFont]: https://github.com/ryanoasis/nerd-fonts
+[McIntyre]: https://github.com/ryanoasis
