@@ -5,6 +5,7 @@ import configparser
 import shutil
 import subprocess
 import sys
+import tomllib
 from pathlib import Path
 from textwrap import dedent
 from typing import Dict, Iterable, List, Optional, Set, Tuple
@@ -112,7 +113,9 @@ def nerdfont_patch(
         font.rename(f"{font}.unpatched")
 
 
-def parse_config(config_file: Path) -> Tuple[str, Dict[str, Set[str]], Optional[List]]:
+def parse_config_ini(
+    config_file: Path,
+) -> Tuple[str, Dict[str, Set[str]], Optional[List]]:
     print(f"Parsing iosevka-generate conf: {config_file} ...", file=sys.stderr)
 
     config = configparser.ConfigParser(
@@ -145,6 +148,32 @@ def parse_config(config_file: Path) -> Tuple[str, Dict[str, Set[str]], Optional[
     return (font_name, font_styles, nerdfont)
 
 
+def parse_config_toml(
+    config_file: Path,
+) -> Tuple[str, Dict[str, Set[str]], Optional[List]]:
+    print(f"Parsing iosevka-generate conf: {config_file} ...", file=sys.stderr)
+
+    with open(config_file, "rb") as fp:
+        config = tomllib.load(fp)
+
+    names = config["buildPlans"].keys()
+    assert len(names) == 1
+    name = next(iter(names))
+
+    styles: Dict = {
+        "common": [],
+    }
+    if (sp := config["buildPlans"][name].get("spacing")) in {"fontconfig-mono", "term"}:
+        styles["common"].append("sp-term")
+    elif sp in {"fixed"}:
+        styles["common"].append("sp-fixed")
+
+    opts = config["buildPlans"][name].get("iosevka-generate", {})
+    nerdfont = opts.get("nerdfont", [])
+
+    return (name, styles, nerdfont)
+
+
 def store_fonts(dest: Path, source: Path):
     dest.mkdir(parents=True, exist_ok=True)
     for font in filter(lambda f: f.is_file(), source.glob("*.ttf")):
@@ -170,10 +199,10 @@ if __name__ == "__main__":
         print(f"Found {conf.stem}", file=sys.stderr)
 
         if conf.suffix == ".ini":
-            name, styles, nerdfont_opts = parse_config(conf)
+            name, styles, nerdfont_opts = parse_config_ini(conf)
             generate_font_plan(install_dir, name, styles)
         else:
-            name, styles, nerdfont_opts = conf.stem, {}, None
+            name, styles, nerdfont_opts = parse_config_toml(conf)
             shutil.copy(conf, install_dir / "private-build-plans.toml")
 
         generate_font(install_dir, name)

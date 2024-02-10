@@ -11,7 +11,7 @@ NB: Iosevka itself now has a TOML spec for font building, which can now be used 
 
 ## Usage
 
-In your `$XDG_CONFIG_HOME` (or `$HOME/.config`) create `iosevka/my-font.toml` in Iosevka's 'private-build-plans' TOML format, or `iosevka/config.ini`, in INI format such as:
+In your `$XDG_CONFIG_HOME` (or `$HOME/.config`) create `iosevka/my-font.toml` in Iosevka's 'private-build-plans' TOML format (recommended), or `iosevka/config.ini` in INI format (which may be removed in the future) such as:
 ```ini
 [options]
     name = myosevka
@@ -35,8 +35,13 @@ In your `$XDG_CONFIG_HOME` (or `$HOME/.config`) create `iosevka/my-font.toml` in
     numbersign = slanted
 ```
 
-Details of the (growing) options available can be found in the [font's readme][Iosevka].
+This format is kept only for backwards compatibility - it is recommended to use [`private-build-plans.toml` format](https://github.com/be5invis/Iosevka/blob/main/doc/custom-build.md) now that it exists; which supports many more options than our INI format ever did, such as restricting widths/weights (helpful to reduce build time for a monospace/term only font).
 
+In the TOML format, nerdfont options can be specified with an `iosevka-generate` options section:
+```toml
+[buildPlans.myosevka.iosevka-generate]
+nerdfont = ["fontawesome", "powerline", "material", "octicons"]
+```
 ## Installation
 
 If you clone this repo, you can just create a symbolic link to the contained script somewhere on your `$PATH`:
