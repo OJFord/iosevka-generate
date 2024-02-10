@@ -206,7 +206,7 @@ if __name__ == "__main__":
             shutil.copy(conf, install_dir / "private-build-plans.toml")
 
         generate_font(install_dir, name)
-        gen_dir = install_dir / "dist" / name / "ttf"
+        gen_dir = install_dir / "dist" / name / "TTF"
 
         if nerdfont_opts is not None:
             mono = any(filter(lambda o: o in styles["common"], ("sp-term", "sp-fixed")))
