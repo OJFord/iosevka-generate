@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-# pylint: disable=C0103,C0111
-
 import configparser
 import shutil
 import subprocess
@@ -151,9 +149,11 @@ def parse_config_ini(
     config.read(config_file)
 
     font_styles = {
-        section: {f'{char} = "{style}"' for char, style in config[section].items()}
-        if section != "options"
-        else set()
+        section: (
+            {f'{char} = "{style}"' for char, style in config[section].items()}
+            if section != "options"
+            else set()
+        )
         for section in sections
     }
 
