@@ -1,4 +1,3 @@
 gitpython
-inflection
 pyxdg
 requests
