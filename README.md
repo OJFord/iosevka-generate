@@ -42,6 +42,9 @@ In the TOML format, nerdfont options can be specified with an `iosevka-generate`
 [buildPlans.myosevka.iosevka-generate]
 nerdfont = ["fontawesome", "powerline", "material", "octicons"]
 ```
+
+For the rest of the (upstream) options, [Iosevka Customizer](https://typeof.net/Iosevka/customizer) is a handy tool to generate the plan visually, or even just to familiarise yourself with the format and sorts of options available.
+
 ## Installation
 
 If you clone this repo, you can just create a symbolic link to the contained script somewhere on your `$PATH`:
