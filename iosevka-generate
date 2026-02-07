@@ -15,9 +15,6 @@ from git import Repo
 from xdg.BaseDirectory import xdg_cache_home, xdg_config_home, xdg_data_home
 
 IOSEVKA_REPO = "https://github.com/be5invis/iosevka"
-NERDFONT_PATCHER_ZIP = (
-    "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FontPatcher.zip"
-)
 
 
 def get_repo(repo_dir: Path, remote_url: str) -> Repo:
@@ -99,17 +96,6 @@ def nerdfont_patch(
     options: Iterable[str] = [],
     mono: bool = True,
 ) -> None:
-    with (
-        requests.get(NERDFONT_PATCHER_ZIP, stream=True) as response,
-        NamedTemporaryFile(mode="w+b", delete=False) as response_fp,
-    ):
-        response.raise_for_status()
-        for chunk in response.iter_content(chunk_size=8192):
-            response_fp.write(chunk)
-
-    with ZipFile(response_fp.name, "r") as zip_fp:
-        zip_fp.extractall(cache_dir)
-
     for font in filter(Path.is_file, font_dir.glob("*")):
         print(f"Patching {font} with nerdfont ...", file=sys.stderr)
         # nerdfont patcher will overwrite the family with --name, which is also the filename;
@@ -120,7 +106,7 @@ def nerdfont_patch(
         )
         subprocess.run(
             [
-                f"{cache_dir}/font-patcher",
+                f"font-patcher",
                 "--careful",
                 "--progressbars",
                 *(["--mono"] if mono else []),

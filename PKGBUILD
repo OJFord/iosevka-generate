@@ -11,14 +11,13 @@ md5sums=('ae0f8ba93243f80f5cb21b29002fe325')
 arch=('any')
 depends=(
     'npm'
-    'otfcc'
     'python-gitpython'
     'python-pyxdg'
     'python-requests'
     'ttfautohint'
 )
 optdepends=(
-    'fontforge: NerdFont patching'
+    'font-patcher: NerdFont patching'
 )
 conflicts=(
     ttf-iosevka-{pack,term,type,slab,term-slab,type-slab}
