@@ -21,7 +21,10 @@ def get_repo(repo_dir: Path, remote_url: str) -> Repo:
     if repo_dir.exists():
         print(f"Updating {IOSEVKA_REPO} ...", file=sys.stderr)
         repo = Repo(repo_dir)
-        repo.remote().pull()
+        remote = repo.remote()
+        branch = repo.active_branch.name
+        remote.fetch(refspec=branch, depth=1)
+        repo.git.reset("--hard", f"{remote.name}/{branch}")
     else:
         print(f"Cloning {remote_url} ...", file=sys.stderr)
         repo = Repo.clone_from(remote_url, repo_dir, depth=1)
